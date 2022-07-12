@@ -59,13 +59,13 @@ const emailSend = async (req, res) => {
       customer_Id: data[0]._id,
       email: req.body.email,
       otp: otpcode,
-      expireIn: new Date().getTime() + 300 * 1000,
+      expire_In: new Date().getTime() + 300 * 1000,
     });
     let otpResponse = await otpData.save();
     if (otpResponse) {
       res.send({ message: " sucessfully otp generated" });
     } else {
-      res.json({ message: "failed" });
+      res.status(400).json({ message: "failed" });
     }
     res.status(200).json(responseType);
   }
