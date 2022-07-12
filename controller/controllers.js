@@ -58,7 +58,7 @@ const emailSend = async (req, res) => {
     let otpData = new otp({
       customer_Id: data[0]._id,
       email: req.body.email,
-      code: otpcode,
+      otp: otpcode,
       expireIn: new Date().getTime() + 300 * 1000,
     });
     let otpResponse = await otpData.save();
@@ -72,7 +72,7 @@ const emailSend = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  let data = await otp.find({ email: req.body.email, code: req.body.otpCode });
+  let data = await otp.find({ email: req.body.email, Otp: req.body.otpCode });
   const response = {};
   if (data) {
     let currentTime = new Date().getTime();
@@ -88,7 +88,6 @@ const changePassword = async (req, res) => {
         { email: req.body.email },
         { $set: { password: hashedPassword } }
       );
-      user.save()
       res.status(200).json("password changed sucessfully");
     }
   } else {
